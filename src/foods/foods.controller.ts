@@ -11,7 +11,7 @@ export class FoodsController {
     return this.foodsService.create(createFoodDto);
   }
 
-  @Get()
+  @Get('todas')
   findAll() {
     return this.foodsService.findAll();
   }
@@ -20,6 +20,8 @@ export class FoodsController {
   findOne(@Param('id') id: string) {
     return this.foodsService.findOne(+id);
   }
+
+  
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateFoodDto: UpdateFoodDto) {
