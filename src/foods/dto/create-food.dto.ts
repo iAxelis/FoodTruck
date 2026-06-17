@@ -1,4 +1,6 @@
 import { IsString, IsNotEmpty, IsNumber } from 'class-validator';
+import { Category } from 'src/categories/entities/category.entity';
+import { OneToMany } from 'typeorm';
 
 export class CreateFoodDto {
   @IsString()
@@ -18,5 +20,7 @@ export class CreateFoodDto {
 
   @IsString()
   @IsNotEmpty()
-  category!: string;
+  category!: Category
+
+ 
 }
