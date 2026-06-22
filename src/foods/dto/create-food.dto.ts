@@ -18,9 +18,9 @@ export class CreateFoodDto {
   @IsNotEmpty()
   image!: string;
 
-  @IsString()
+  @IsNumber()
   @IsNotEmpty()
-  category!: Category
+  category!: number
 
  
 }

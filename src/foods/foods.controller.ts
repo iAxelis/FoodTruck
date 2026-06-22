@@ -1,8 +1,11 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UploadedFile,
+  UseInterceptors, } from '@nestjs/common';
 import { FoodsService } from './foods.service';
 import { CreateFoodDto } from './dto/create-food.dto';
 import { UpdateFoodDto } from './dto/update-food.dto';
 import { AuthGuard } from '@nestjs/passport';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { diskStorage } from 'multer';
 @Controller('foods')
 //@UseGuards(AuthGuard('jwt'))
 export class FoodsController {
@@ -34,4 +37,32 @@ export class FoodsController {
   remove(@Param('id') id: string) {
     return this.foodsService.remove(+id);
   }
+
+
+  
+
+  @Post('upload')
+@UseInterceptors(
+  FileInterceptor('file', {
+    storage: diskStorage({
+      destination: './uploads',
+      filename: (req, file, cb) => {
+        cb(
+          null,
+          Date.now() + '-' + file.originalname,
+        );
+      },
+    }),
+  }),
+)
+uploadFile(
+  @UploadedFile() file: Express.Multer.File,
+) {
+  return {
+    message: 'Archivo subido correctamente',
+    filename: file.filename,
+    originalname: file.originalname,
+    size: file.size,
+  };
+}
 }
